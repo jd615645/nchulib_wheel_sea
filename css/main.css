@@ -1,0 +1,69 @@
+body {
+  font-family:'Roboto', '黑體-繁', '微軟正黑體', sans-serif;
+
+  background-image: url('../img/bg.png');
+  background-repeat:no-repeat;
+  background-attachment:fixed;
+  background-position:center;
+  background-size: cover;
+}
+h1, h3, h4, p {
+  text-align: center;
+  font-family:'Roboto', '黑體-繁', '微軟正黑體', sans-serif !important;
+}
+canvas {
+  max-width: 930px;
+  width: 100% !important;
+  height: auto !important;
+  margin: 0 auto;
+}
+#fullPage {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  z-index: -1;
+}
+#fullPage img {
+  position: absolute;
+}
+#rightBanner {
+  position: absolute;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+#rightBanner img {
+  position: relative;
+}
+#liblogo {
+  width: 500px;
+  bottom: 0;
+  right: 0;
+}
+.titleImg {
+  top: 0;
+  bottom: 0;
+  margin: auto;
+}
+
+.allCenter {
+  flex-direction: column;
+  display: -webkit-flex;
+  display:         flex;
+  -webkit-align-items: center;
+          align-items: center;
+  -webkit-justify-content: center;
+          justify-content: center;
+}
+#main {
+  width: 100%;
+  height: 100%;
+}
+.modal {
+  text-align: center !important;
+}
+#prizeImage {
+  width: 800px;
+  height: 600px;
+}
