@@ -1,112 +1,112 @@
-$(document).ready(function($) {
+$(document).ready(function ($) {
   // the game itself
-  var game;
+  var game
   // the spinning wheel
-  var wheel;
+  var wheel
   // can the wheel spin?
-  var canSpin;
+  var canSpin
   // slices (prizes) placed in the wheel
-  var slices = 15;
+  var slices = 15
   // prize names, starting from 12 o'clock going clockwise
-  var slicePrizes = ["銘謝惠顧", "興寶寶書籤", "再轉一次", "圖書館便利貼", "手機擦拭布", "興寶寶書籤", "圖書館便利貼", "再轉一次", "園遊券一張", "興寶寶書籤", "圖書館便利貼", "興心情貼圖", "手機擦拭布", "興寶寶書籤", "圖書館便利貼"];
+  var slicePrizes = ['銘謝惠顧', '興寶寶書籤', '再轉一次', '圖書館便利貼', '手機擦拭布', '興寶寶書籤', '圖書館便利貼', '神秘禮物', '園遊券一張', '興寶寶書籤', '圖書館便利貼', '興心情貼圖', '手機擦拭布', '興寶寶書籤', '圖書館便利貼']
   // the prize you are about to win
-  var prize;
+  var prize
   // text field where to show the prize
-  var prizeText;
-  var zoom = 1;
+  var prizeText
+  var zoom = 1
 
-  var audio = document.getElementById("bgMusic");
+  var audio = document.getElementById('bgMusic')
 
-  window.onload = function() {
+  window.onload = function () {
     // creation of a 620x620 game
-    game = new Phaser.Game(920, 920, Phaser.AUTO, 'wheel', null, true);
+    game = new Phaser.Game(920, 920, Phaser.AUTO, 'wheel', null, true)
     // adding "PlayGame" state
-    game.state.add("PlayGame",playGame);
+    game.state.add('PlayGame', playGame)
     // launching "PlayGame" state
-    game.state.start("PlayGame");
+    game.state.start('PlayGame')
   }
 
   // PLAYGAME STATE
 
-  var playGame = function(game){};
+  var playGame = function (game) {}
 
   playGame.prototype = {
     // function to be executed once the state preloads
-    preload: function(){
+    preload: function () {
       // preloading graphic assets
-      game.load.image("wheel", "./img/wheel.png");
-      game.load.image("pin", "./img/pin.png");
+      game.load.image('wheel', './img/wheel.png')
+      game.load.image('pin', './img/pin.png')
     },
     // funtion to be executed when the state is created
-   create: function(){
-     // giving some color to background
-     // adding the wheel in the middle of the canvas
-     wheel = game.add.sprite(game.width / 2, game.width / 2, "wheel");
-     wheel.scale.setTo(zoom);
-     // setting wheel registration point in its center
-     wheel.anchor.set(0.5);
-     // adding the pin in the middle of the canvas
-     var pin = game.add.sprite(game.width / 2, game.width / 2, "pin");
-     // setting pin registration point in its center
-     pin.anchor.set(0.5);
-     // pin.scale.setTo(zoom);
-     // adding the text field
-     // prizeText = game.add.text(game.world.centerX, 625, "");
-     // setting text field registration point in its center
-     // prizeText.anchor.set(0.5);
-     // aligning the text to center
-     // prizeText.align = "center";
-     // the game has just started = we can spin the wheel
-     canSpin = true;
-     // waiting for your input, then calling "spin" function
-     game.input.onDown.add(this.spin, this);
-   },
-      // function to spin the wheel
-      spin(){
-        // can we spin the wheel?
-        if(canSpin){
-          // resetting text field
-          // prizeText.text = "";
-          // the wheel will spin round from 2 to 4 times. This is just coreography
-          var rounds = game.rnd.between(2, 4);
-          // then will rotate by a random number from 0 to 360 degrees. This is the actual spin
-          var degrees = game.rnd.between(0, 360);
-          // before the wheel ends spinning, we already know the prize according to "degrees" rotation and the number of slices
-          prize = slices - 1 - Math.floor(degrees / (360 / slices));
-          // now the wheel cannot spin because it's already spinning
-          canSpin = false;
-          // animation tweeen for the spin: duration 3s, will rotate by (360 * rounds + degrees) degrees
-          // the quadratic easing will simulate friction
-          var spinTween = game.add.tween(wheel).to({
-               angle: 360 * rounds + degrees
-          }, 3000, Phaser.Easing.Quadratic.Out, true);
-          // once the tween is completed, call winPrize function
-          spinTween.onComplete.add(this.winPrize, this);
-        }
-      },
-      // function to assign the prize
-      winPrize(){
-        // now we can spin the wheel again
-        canSpin = true;
-        // writing the prize you just won
-        // prizeText.text = slicePrizes[prize];
-
-        console.log(slicePrizes[prize]);
-
-        $('#prizeImage').attr('src', './img/' + slicePrizes[prize] + '.jpg');
-        $('.ui.modal').modal({
-          onHide: function() {
-            // console.log('hidden');
-            audio.pause();
-            audio.currentTime = 0;
-          },
-          onShow: function() {
-            // console.log('shown');
-            audio.play();
-          }
-        }).modal('show');
-        return console.log(slicePrizes[prize]);
+    create: function () {
+      // giving some color to background
+      // adding the wheel in the middle of the canvas
+      wheel = game.add.sprite(game.width / 2, game.width / 2, 'wheel')
+      wheel.scale.setTo(zoom)
+      // setting wheel registration point in its center
+      wheel.anchor.set(0.5)
+      // adding the pin in the middle of the canvas
+      var pin = game.add.sprite(game.width / 2, game.width / 2, 'pin')
+      // setting pin registration point in its center
+      pin.anchor.set(0.5)
+      // pin.scale.setTo(zoom)
+      // adding the text field
+      // prizeText = game.add.text(game.world.centerX, 625, "")
+      // setting text field registration point in its center
+      // prizeText.anchor.set(0.5)
+      // aligning the text to center
+      // prizeText.align = "center"
+      // the game has just started = we can spin the wheel
+      canSpin = true
+      // waiting for your input, then calling "spin" function
+      game.input.onDown.add(this.spin, this)
+    },
+    // function to spin the wheel
+    spin() {
+      // can we spin the wheel?
+      if (canSpin) {
+        // resetting text field
+        // prizeText.text = ""
+        // the wheel will spin round from 2 to 4 times. This is just coreography
+        var rounds = game.rnd.between(2, 4)
+        // then will rotate by a random number from 0 to 360 degrees. This is the actual spin
+        var degrees = game.rnd.between(0, 360)
+        // before the wheel ends spinning, we already know the prize according to "degrees" rotation and the number of slices
+        prize = slices - 1 - Math.floor(degrees / (360 / slices))
+        // now the wheel cannot spin because it's already spinning
+        canSpin = false
+        // animation tweeen for the spin: duration 3s, will rotate by (360 * rounds + degrees) degrees
+        // the quadratic easing will simulate friction
+        var spinTween = game.add.tween(wheel).to({
+          angle: 360 * rounds + degrees
+        }, 3000, Phaser.Easing.Quadratic.Out, true)
+        // once the tween is completed, call winPrize function
+        spinTween.onComplete.add(this.winPrize, this)
       }
+    },
+    // function to assign the prize
+    winPrize() {
+      // now we can spin the wheel again
+      canSpin = true
+      // writing the prize you just won
+      // prizeText.text = slicePrizes[prize]
+
+      console.log(slicePrizes[prize])
+
+      $('#prizeImage').attr('src', './img/' + slicePrizes[prize] + '.jpg')
+      $('.ui.modal').modal({
+        onHide: function () {
+          // console.log('hidden')
+          audio.pause()
+          audio.currentTime = 0
+        },
+        onShow: function () {
+          // console.log('shown')
+          audio.play()
+        }
+      }).modal('show')
+      return console.log(slicePrizes[prize])
+    }
   }
-  $('.ui.modal').modal('hide');
-});
+  $('.ui.modal').modal('hide')
+})
